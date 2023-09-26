@@ -1,0 +1,8 @@
+type = module
+name = TinyMCE IMCE plugin
+description = Provides an IMCE button for TinyMCE toolbar.
+
+dependencies[] = tinymce
+dependencies[] = imce
+
+backdrop = 1.x

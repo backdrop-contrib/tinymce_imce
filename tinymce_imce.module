@@ -1,0 +1,29 @@
+<?php
+/**
+ * @file
+ */
+
+/**
+ * Implements hook_tinymce_external_plugins().
+ */
+function tinymce_imce_tinymce_external_plugins($format) {
+  $module_url = base_path() . backdrop_get_path('module', 'tinymce_imce');
+  $plugins = array(
+    'imce' => array(
+      'plugin_path' => $module_url . '/js/plugins/imce/plugin.js',
+      'variables' => array(
+        'imceUrl' => base_path() . 'imce?app=tinymce|sendto@tinymceImceResponseHandler',
+        'imceDialogTitle' => t('Insert image'),
+      ),
+      // Provide info for the builder tool about buttons, this plugin provides.
+      'buttons' => array(
+        'imce' => array(
+          'icon' => 'edit-image',
+          'tooltip' => 'Insert image with IMCE',
+        ),
+      ),
+    ),
+  );
+
+  return $plugins;
+}
