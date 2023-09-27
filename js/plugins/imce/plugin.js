@@ -40,24 +40,55 @@ tinymce.PluginManager.add('imce', function(editor, url) {
   });
 
   editor.ui.registry.addSplitButton('imcealign', {
-    icon: 'indent',
+    icon: 'floatnone',
     tooltip: 'Image alignment',
     onAction: function () {},
+    onSetup: function (api) {
+      let imgClass = editor.selection.getNode().getAttribute('class');
+      let icon;
+      switch (imgClass) {
+        case 'align-left':
+          icon = 'floatleft';
+          break;
+        case 'align-center':
+          icon = 'aligncenter';
+          break;
+        case 'align-right':
+          icon = 'floatright';
+          break;
+        default:
+          icon = 'floatnone';
+      }
+      api.setIcon(icon);
+    },
     onItemAction: function (api, value) {
       let img = editor.selection.getNode();
+      let bookmark = editor.selection.getBookmark();
       if (value == 'none') {
         img.removeAttribute('class');
       }
       else {
         img.setAttribute('class', value);
       }
-      // Close parent toolbar, as I can't figure out how to reposition.
+      // Hm, that's a LOT of code just to move... think it over!
       editor.dispatch('contexttoolbar-hide', {
         toolbarKey: 'imcecontext'
       });
-      // Reposition resize handles after floated image moved.
-      editor.selection.controlSelection.hideResizeRect(img);
+      // Floating an image changes content height.
+      editor.dispatch('ResizeEditor');
+      // Focus lost (outside editor).
+      editor.focus();
+      // Really?
+      editor.selection.moveToBookmark(bookmark);
+      img.setAttribute('data-mce-selected', 1);
       editor.selection.controlSelection.showResizeRect(img);
+    },
+    select: function (value) {
+      let imgClass = editor.selection.getNode().getAttribute('class');
+      if (!imgClass && value == 'none') {
+        return true;
+      }
+      return imgClass == value;
     },
     fetch: (callback) => {
       const items = [
@@ -91,15 +122,22 @@ tinymce.PluginManager.add('imce', function(editor, url) {
   });
 
   editor.ui.registry.addButton('form:imcealtform', {
-    type: 'contextformbutton',
-    onAction: function () {}
+    type: 'contextformbutton'
   });
   editor.ui.registry.addContextForm('imcealtform', {
     launch: {
       type: 'contextformbutton',
       icon: 'lowvision',
-      tooltip: 'Alternative text'
+      text: '!!',
+      tooltip: 'Alternative text',
+      onSetup: function (api) {
+        let alt = editor.selection.getNode().getAttribute('alt');
+        if (alt) {
+          api.setText('✓');
+        }
+      }
     },
+    label: 'Image alternative text',
     initValue: function () {
       let img = editor.selection.getNode();
       return img.getAttribute('alt');
@@ -123,7 +161,7 @@ tinymce.PluginManager.add('imce', function(editor, url) {
     predicate: function (node) {
       return imceTools.isRegularImg(node);
     },
-    items: 'form:imcealtform | imcealign',
+    items: 'form:imcealtform imcealign',
     scope: 'node',
     position: 'node'
   });
