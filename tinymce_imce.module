@@ -23,6 +23,14 @@ function tinymce_imce_tinymce_external_plugins($format) {
           'tooltip' => 'Insert image with IMCE',
         ),
       ),
+      // Custom icons for this plugin.
+      'icons' => array(
+        'aligncenter' => 'aligncenter.svg',
+        'floatleft' => 'floatleft.svg',
+        'floatnone' => 'floatnone.svg',
+        'floatright' => 'floatright.svg',
+        'lowvision' => 'lowvision.svg',
+      ),
     ),
   );
 
