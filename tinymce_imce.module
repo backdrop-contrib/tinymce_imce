@@ -1,6 +1,7 @@
 <?php
 /**
  * @file
+ * Hook implementations and callbacks for the TinyMCE IMCE module.
  */
 
 /**
@@ -26,4 +27,55 @@ function tinymce_imce_tinymce_external_plugins($format) {
   );
 
   return $plugins;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function tinymce_imce_menu() {
+  $items['tinymce-imce/fid'] = array(
+    'title' => 'Get fid',
+    'page callback' => '_tinymce_imce_fetch_fid',
+    'access callback' => '_tinymce_imce_fetch_fid_access',
+    'delivery callback' => 'backdrop_json_deliver',
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
+ * Access callback.
+ *
+ * Not very detailed, only checks if a user has access to imce.
+ *
+ * @return bool
+ */
+function _tinymce_imce_fetch_fid_access() {
+  global $user;
+  return imce_access($user);
+}
+
+/**
+ * Callback to fetch file ID based on image URL.
+ */
+function _tinymce_imce_fetch_fid() {
+  if (empty($_POST)) {
+    backdrop_deliver_page(MENU_NOT_FOUND, 'backdrop_deliver_html_page');
+  }
+  $response = '0';
+  if (isset($_POST['url'])) {
+    $url = $_POST['url'];
+    $parsed = parse_url($url);
+    if ($parsed['path']) {
+      $replace = base_path() . config_get('system.core', 'file_public_path') . '/';
+      // We only take care of the "public" stream wrapper.
+      $uri = 'public://' . preg_replace("#^$replace#", '', $parsed['path']);
+      $files = file_load_multiple(array(), array('uri' => $uri));
+      if (!empty($files)) {
+        $file = reset($files);
+        $response = $file->fid;
+      }
+    }
+  }
+  return $response;
 }
