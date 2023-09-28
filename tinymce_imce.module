@@ -63,7 +63,7 @@ function _tinymce_imce_fetch_fid() {
     backdrop_deliver_page(MENU_NOT_FOUND, 'backdrop_deliver_html_page');
   }
   $response = '0';
-  if (isset($_POST['url'])) {
+  if (isset($_POST['url']) && is_string($_POST['url'])) {
     $url = $_POST['url'];
     $parsed = parse_url($url);
     if ($parsed['path']) {
