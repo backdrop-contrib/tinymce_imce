@@ -66,20 +66,10 @@ tinymce.PluginManager.add('imce', function(editor, url) {
     },
     onItemAction: function (api, value) {
       let img = editor.selection.getNode();
-      let bookmark = editor.selection.getBookmark();
       img.setAttribute('data-align', value);
-      // Hm, that's a LOT of code just to move... think it over!
-      editor.dispatch('contexttoolbar-hide', {
-        toolbarKey: 'imcecontext'
-      });
-      // Floating an image changes content height.
-      editor.dispatch('ResizeEditor');
-      // Focus lost (outside editor).
+      editor.nodeChanged();
+      // Why is the focus lost?
       editor.focus();
-      // Really?
-      editor.selection.moveToBookmark(bookmark);
-      img.setAttribute('data-mce-selected', 1);
-      editor.selection.controlSelection.showResizeRect(img);
     },
     select: function (value) {
       let align = editor.selection.getNode().getAttribute('data-align');
@@ -152,6 +142,7 @@ tinymce.PluginManager.add('imce', function(editor, url) {
           let img = editor.selection.getNode();
           img.setAttribute('alt', value);
           formApi.hide();
+          editor.focus();// Why?
         }
       }
     ]
