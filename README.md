@@ -5,8 +5,13 @@ Provides a button for TinyMCE to insert images directly with IMCE.
 That's an alternative to the default image browser plugin (backdropimage), if
  you prefer to handle your files with IMCE.
 
-Provides a context toolbar to set the alternative text and image alignment,
- records file usage for images in the public file system.
+Provides a context toolbar to set the alternative text and image alignment in
+ place.
+
+![Expanded menu item in conext toolbar](https://raw.githubusercontent.com/backdrop-contrib/tinymce_imce/1.x-1.x/screenshots/context-toolbar.webp)
+
+Records file usage for inserted images, as long as they're in the public file
+ system.
 
 ## Dependencies
 
@@ -16,7 +21,8 @@ Provides a context toolbar to set the alternative text and image alignment,
 ## Installation
 
 - Install this module using the official [Backdrop CMS instructions](https://docs.backdropcms.org/documentation/extend-with-modules)
-- Add the plugin and button to your editor profile
+- Add the plugin and button to your editor profile (manually, or create a new
+  profile with the builder tool)
 
 ## Issues
 
