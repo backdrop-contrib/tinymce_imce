@@ -1,6 +1,7 @@
 # TinyMCE IMCE plugin
 
-Provides a button for TinyMCE to insert images directly with IMCE.
+Provides a button for TinyMCE to insert images directly with
+ [IMCE](https://backdropcms.org/project/imce).
 
 That's an alternative to the default image browser plugin (backdropimage), if
  you prefer to handle your files with IMCE.
