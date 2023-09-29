@@ -47,16 +47,16 @@ tinymce.PluginManager.add('imce', function(editor, url) {
     tooltip: 'Image alignment',
     onAction: function () {},
     onSetup: function (api) {
-      let imgClass = editor.selection.getNode().getAttribute('class');
+      let align = editor.selection.getNode().getAttribute('data-align');
       let icon;
-      switch (imgClass) {
-        case 'align-left':
+      switch (align) {
+        case 'left':
           icon = 'floatleft';
           break;
-        case 'align-center':
+        case 'center':
           icon = 'aligncenter';
           break;
-        case 'align-right':
+        case 'right':
           icon = 'floatright';
           break;
         default:
@@ -67,12 +67,7 @@ tinymce.PluginManager.add('imce', function(editor, url) {
     onItemAction: function (api, value) {
       let img = editor.selection.getNode();
       let bookmark = editor.selection.getBookmark();
-      if (value == 'none') {
-        img.removeAttribute('class');
-      }
-      else {
-        img.setAttribute('class', value);
-      }
+      img.setAttribute('data-align', value);
       // Hm, that's a LOT of code just to move... think it over!
       editor.dispatch('contexttoolbar-hide', {
         toolbarKey: 'imcecontext'
@@ -87,11 +82,11 @@ tinymce.PluginManager.add('imce', function(editor, url) {
       editor.selection.controlSelection.showResizeRect(img);
     },
     select: function (value) {
-      let imgClass = editor.selection.getNode().getAttribute('class');
-      if (!imgClass && value == 'none') {
+      let align = editor.selection.getNode().getAttribute('data-align');
+      if (!align && value == 'none') {
         return true;
       }
-      return imgClass == value;
+      return align == value;
     },
     fetch: function (callback) {
       const items = [
@@ -105,19 +100,19 @@ tinymce.PluginManager.add('imce', function(editor, url) {
           type: 'choiceitem',
           text: 'Float left',
           icon: 'floatleft',
-          value: 'align-left'
+          value: 'left'
         },
         {
           type: 'choiceitem',
           text: 'Align center',
           icon: 'aligncenter',
-          value: 'align-center'
+          value: 'center'
         },
         {
           type: 'choiceitem',
           text: 'Float right',
           icon: 'floatright',
-          value: 'align-right'
+          value: 'right'
         }
       ];
       callback(items);
