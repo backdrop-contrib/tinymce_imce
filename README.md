@@ -6,6 +6,8 @@ Provides a button for TinyMCE to insert images directly with
 That's an alternative to the default image browser plugin (backdropimage), if
  you prefer to handle your files with IMCE.
 
+![IMCE dialog header and part of content](https://raw.githubusercontent.com/backdrop-contrib/tinymce_imce/1.x-1.x/screenshots/imce-dialog-content.webp)
+
 Provides a context toolbar to set the alternative text and image alignment in
  place.
 
