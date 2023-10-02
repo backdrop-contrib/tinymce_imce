@@ -8,7 +8,7 @@ tinymce.PluginManager.add('imce', function(editor, url) {
   // The toolbar button.
   editor.ui.registry.addToggleButton('imce', {
     icon: 'edit-image',
-    tooltip: 'Insert image with IMCE',
+    tooltip: editor.options.get('imceInsertImage'),
     onAction: function () {
       imceTools.openDialog(editor);
     },
@@ -44,7 +44,7 @@ tinymce.PluginManager.add('imce', function(editor, url) {
   // Dropdown button for the context menu.
   editor.ui.registry.addSplitButton('imcealign', {
     icon: 'floatnone',
-    tooltip: 'Image alignment',
+    tooltip: editor.options.get('imceImgAlignment'),
     onAction: function () {},
     onSetup: function (api) {
       let align = editor.selection.getNode().getAttribute('data-align');
@@ -82,25 +82,25 @@ tinymce.PluginManager.add('imce', function(editor, url) {
       const items = [
         {
           type: 'choiceitem',
-          text: 'No float',
+          text: editor.options.get('imceNoFloat'),
           icon: 'floatnone',
           value: 'none'
         },
         {
           type: 'choiceitem',
-          text: 'Float left',
+          text: editor.options.get('imceFloatLeft'),
           icon: 'floatleft',
           value: 'left'
         },
         {
           type: 'choiceitem',
-          text: 'Align center',
+          text: editor.options.get('imceAlignCenter'),
           icon: 'aligncenter',
           value: 'center'
         },
         {
           type: 'choiceitem',
-          text: 'Float right',
+          text: editor.options.get('imceFloatRight'),
           icon: 'floatright',
           value: 'right'
         }
@@ -119,7 +119,7 @@ tinymce.PluginManager.add('imce', function(editor, url) {
       type: 'contextformbutton',
       icon: 'lowvision',
       text: '!!',
-      tooltip: 'Alternative text',
+      tooltip: editor.options.get('imceAltText'),
       onSetup: function (api) {
         let alt = editor.selection.getNode().getAttribute('alt');
         if (alt) {
@@ -135,7 +135,7 @@ tinymce.PluginManager.add('imce', function(editor, url) {
     commands: [
       {
         type: 'contextformtogglebutton',
-        text: 'Update ↵',
+        text: editor.options.get('imceUpdate') + ' ↵',
         primary: true,
         onAction: function (formApi) {
           const value = formApi.getValue();
@@ -241,7 +241,7 @@ function tinymceImceResponseHandler (file, win) {
   let extension = file.name.toLowerCase().split('.').pop();
   if (!imageTypes.includes(extension)) {
     editor.notificationManager.open({
-      text: 'Not an image',
+      text: editor.options.get('imceNotAnImage'),
       type: 'error',
       icon: 'warn'
     });

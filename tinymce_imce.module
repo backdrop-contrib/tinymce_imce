@@ -14,13 +14,23 @@ function tinymce_imce_tinymce_external_plugins($format) {
       'plugin_path' => $module_url . '/js/plugins/imce/plugin.js',
       'variables' => array(
         'imceUrl' => base_path() . 'imce?app=tinymce|sendto@tinymceImceResponseHandler',
+        // Translations not handled by TinyMCE's default language packs:
         'imceDialogTitle' => t('Insert image'),
+        'imceNoFloat' => t('No alignment'),
+        'imceFloatLeft' => t('Align left'),
+        'imceAlignCenter' => t('Align center'),
+        'imceFloatRight' => t('Align right'),
+        'imceUpdate' => t('Update'),
+        'imceNotAnImage' => t('Not an image'),
+        'imceInsertImage' => t('Insert image with IMCE'),
+        'imceImgAlignment' => t('Alignment'),
+        'imceAltText' => t('Alternative text'),
       ),
       // Provide info for the builder tool about buttons, this plugin provides.
       'buttons' => array(
         'imce' => array(
           'icon' => 'edit-image',
-          'tooltip' => 'Insert image with IMCE',
+          'tooltip' => t('Insert image with IMCE'),
         ),
       ),
       // Custom icons for this plugin.
