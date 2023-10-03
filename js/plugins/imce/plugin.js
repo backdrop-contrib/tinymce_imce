@@ -201,6 +201,7 @@ imceTools.setFileId = function (url) {
   formData.append('url', url);
 
   XHR.addEventListener('load', function (event) {
+    let editor = tinymce.activeEditor;
     if (event.target.status == 200) {
       if (event.target.responseText) {
         let fid = JSON.parse(event.target.responseText);
@@ -208,18 +209,26 @@ imceTools.setFileId = function (url) {
         if (!fid) {
           return;
         }
-        let editor = tinymce.activeEditor;
         let imgDomnode = editor.getBody().querySelector('[src="' + url + '"]');
         imgDomnode.setAttribute('data-file-id', fid);
       }
     }
     else {
-      console.log(event.target.status);// @todo
+      editor.notificationManager.open({
+        text: 'HTTP status code when fetching file ID: ' + event.target.status,
+        type: 'error',
+        icon: 'warn'
+      });
     }
   });
 
   XHR.addEventListener('error', function (event) {
-    console.log(event);// @todo
+    let editor = tinymce.activeEditor;
+    editor.notificationManager.open({
+      text: 'Error when fetching File ID',
+      type: 'error',
+      icon: 'warn'
+    });
   });
 
   let fetchUrl = '/tinymce-imce/fid';
