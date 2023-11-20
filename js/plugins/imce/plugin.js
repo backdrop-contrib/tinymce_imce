@@ -260,7 +260,7 @@ function tinymceImceResponseHandler (file, win) {
   let img = editor.dom.create('img', {
     src: file.url,
   });
-  // Only set dimensions if IMCE provided values, avoid "0" values.
+  // Only set dimensions if IMCE provided non-zero values.
   if (file.width) {
     img.setAttribute('width', file.width);
   }
