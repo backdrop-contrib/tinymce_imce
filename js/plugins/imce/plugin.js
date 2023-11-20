@@ -259,9 +259,14 @@ function tinymceImceResponseHandler (file, win) {
   }
   let img = editor.dom.create('img', {
     src: file.url,
-    width: file.width,
-    height: file.height
   });
+  // Only set dimensions if IMCE provided non-zero values.
+  if (file.width) {
+    img.setAttribute('width', file.width);
+  }
+  if (file.height) {
+    img.setAttribute('height', file.height);
+  }
   img.setAttribute('alt', '');
   editor.insertContent(img.outerHTML);
   editor.windowManager.close();
