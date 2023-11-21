@@ -23,6 +23,13 @@ tinymce.PluginManager.add('imce', function(editor, url) {
           api.setActive(false);
         }
       });
+      // Fix broken drag/replace/remove in Firefox.
+      editor.on('ObjectSelected', function (obj) {
+        if (obj.target.nodeName != 'IMG') {
+          return;
+        }
+        editor.selection.select(obj.target);
+      });
       editor.on('dblclick', function (ev) {
         if (imceTools.isRegularImg(ev.target)) {
           imceTools.openDialog(editor);
