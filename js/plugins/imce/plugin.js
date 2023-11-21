@@ -24,9 +24,10 @@ tinymce.PluginManager.add('imce', function(editor, url) {
         }
       });
       editor.on('dblclick', function (ev) {
-        let node = editor.selection.getNode();
-        if (imceTools.isRegularImg(node)) {
+        if (imceTools.isRegularImg(ev.target)) {
           imceTools.openDialog(editor);
+          // Prevent dblclick from bubbling, opening multiple dialogs.
+          ev.stopImmediatePropagation();
         }
       });
     }
